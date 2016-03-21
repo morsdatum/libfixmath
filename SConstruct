@@ -1,6 +1,6 @@
 # Top SConstruct file
 
-tool_path = '/opt/freddie-arm-5_3/'
+tool_path = '/opt/summon-arm-4_8/'
 cross_prefix = tool_path+'bin/arm-none-eabi-'
 
 cc_flags = Split('''
@@ -79,8 +79,8 @@ env.SConscript(src_dir+scr_file, exports={'env':cm4_env, 'cm_sw':'M4'} , variant
 env.SConscript(src_dir+scr_file, exports={'env':cm4f_env, 'cm_sw':'M4F'}, variant_dir=cm4f_dir,duplicate=0)
 
 Clean('depend.d',Glob(src_dir+'*.d')
-		+Glob(cm0_dir+'*/*.d')
-		+Glob(cm3_dir+'*/*.d')
-		+Glob(cm4_dir+'*/*.d')
-		+Glob(cm4f_dir+'*/*.d'))
+		+Glob(cm0_dir+'*.d')
+		+Glob(cm3_dir+'*.d')
+		+Glob(cm4_dir+'*.d')
+		+Glob(cm4f_dir+'*.d'))
 
