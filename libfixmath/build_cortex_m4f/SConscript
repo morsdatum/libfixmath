@@ -1,0 +1,13 @@
+#Cortex M4F build folder's SConscript file
+
+Import('env')
+
+srcs = env.Glob('*.c')
+
+cm4f_sw = Split('-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb')
+
+cm4f_env = env.Clone()
+
+cm4f_env.Append(CCFLAGS=cm4f_sw,CXXFLAGS=cm4f_sw,LINKFLAGS=cm4f_sw,ASFLAGS=cm4f_sw)
+
+cm4f_env.StaticLibrary(target='arm_cortexM4fl_fixmath',source=srcs)
