@@ -1,15 +1,9 @@
 # libfixmath folder 's SConscript
 
 Import('env')
-Import('scr_file')
-Import('src_dir')
-Import('cm0_dir')
-Import('cm3_dir')
-Import('cm4_dir')
-Import('cm4f_dir')
+Import('cm_sw')
 
+srcs = Glob('*.c')
 
-env.SConscript(src_dir+scr_file,  variant_dir=cm0_dir, duplicate=0)
-env.SConscript(src_dir+scr_file,  variant_dir=cm3_dir, duplicate=0)
-env.SConscript(src_dir+scr_file,  variant_dir=cm4_dir, duplicate=0)
-env.SConscript(src_dir+scr_file,  variant_dir=cm4f_dir, duplicate=0)
+env.StaticLibrary(target='arm_cortex'+cm_sw+'l_fixmath',source=srcs)
+

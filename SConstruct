@@ -54,19 +54,33 @@ env = Environment(
 			RANLIB=cross_prefix+'ranlib'
 		)
 
-Export('scr_file')
-Export('env')
-Export('src_dir')
-Export('cm0_dir')
-Export('cm3_dir')
-Export('cm4_dir')
-Export('cm4f_dir')
 
-env.SConscript(src_dir+scr_file)
+cm0_sw = Split('-mcpu=cortex-m0plus -mfloat-abi=soft -mthumb')
+cm0_env = env.Clone()
+cm0_env.Append(CCFLAGS=cm0_sw,CXXFLAGS=cm0_sw,LINKFLAGS=cm0_sw,ASFLAGS=cm0_sw)
+
+cm3_sw = Split('-mcpu=cortex-m3 -mfloat-abi=soft -mthumb')
+cm3_env = env.Clone()
+cm3_env.Append(CCFLAGS=cm3_sw,CXXFLAGS=cm3_sw,LINKFLAGS=cm3_sw,ASFLAGS=cm3_sw)
+
+cm4_sw = Split('-mcpu=cortex-m4 -mfloat-abi=soft -mfpu=fpv4-sp-d16 -mthumb')
+cm4_env = env.Clone()
+cm4_env.Append(CCFLAGS=cm4_sw,CXXFLAGS=cm4_sw,LINKFLAGS=cm4_sw,ASFLAGS=cm4_sw)
+
+cm4f_sw = Split('-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb')
+cm4f_env = env.Clone()
+cm4f_env.Append(CCFLAGS=cm4f_sw,CXXFLAGS=cm4f_sw,LINKFLAGS=cm4f_sw,ASFLAGS=cm4f_sw)
+
+
+
+env.SConscript(src_dir+scr_file, exports={'env':cm0_env, 'cm_sw':'M0plus'}, variant_dir=cm0_dir, duplicate=0)
+env.SConscript(src_dir+scr_file, exports={'env':cm3_env, 'cm_sw':'M3'}, variant_dir=cm3_dir, duplicate=0)
+env.SConscript(src_dir+scr_file, exports={'env':cm4_env, 'cm_sw':'M4'} , variant_dir=cm4_dir,duplicate=0)
+env.SConscript(src_dir+scr_file, exports={'env':cm4f_env, 'cm_sw':'M4F'}, variant_dir=cm4f_dir,duplicate=0)
 
 Clean('depend.d',Glob(src_dir+'*.d')
-		+Glob(src_dir+cm0_dir+'*/*.d')
-		+Glob(src_dir+cm3_dir+'*/*.d')
-		+Glob(src_dir+cm4_dir+'*/*.d')
-		+Glob(src_dir+cm4f_dir+'*/*.d'))
+		+Glob(cm0_dir+'*/*.d')
+		+Glob(cm3_dir+'*/*.d')
+		+Glob(cm4_dir+'*/*.d')
+		+Glob(cm4f_dir+'*/*.d'))
 
